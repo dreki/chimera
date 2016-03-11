@@ -19,6 +19,12 @@
     "bind",
     "binding"
   ],
+  "devDependencies": {
+    "tap": "^2.2.0"
+  },
+  "dependencies": {
+    "backbone": "1.0.0"
+  },
   "author": "Sean Gilbertson",
   "license": "ISC",
   "bugs": {
