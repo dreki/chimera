@@ -1,0 +1,28 @@
+{
+  "name": "chimera",
+  "version": "1.0.0",
+  "description": "Bind your Backbone Models and Views",
+  "main": "chimera.js",
+  "scripts": {
+    "test": "tap test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreki/chimera.git"
+  },
+  "keywords": [
+    "backbone",
+    "javascript",
+    "js",
+    "model",
+    "view",
+    "bind",
+    "binding"
+  ],
+  "author": "Sean Gilbertson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dreki/chimera/issues"
+  },
+  "homepage": "https://github.com/dreki/chimera#readme"
+}
