@@ -362,5 +362,4 @@ var QuizView = Backbone.View.extend({
 });
 
 // return QuizView;
-
-return Chimera;
+module.exports = Chimera;

@@ -22,10 +22,13 @@
     "binding"
   ],
   "devDependencies": {
-    "tap": "^5.0.0",
     "express": "4.13.4",
+    "jsdom": "8.1.0",
+    "read-file": "0.2.0",
     "spooky": "0.2.5",
-    "read-file": "0.2.0"
+    "tap": "^5.0.0",
+    "wdio-mocha-framework": "^0.2.11",
+    "webdriverio": "3"
   },
   "dependencies": {
     "jquery": "2.2.1",
