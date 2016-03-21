@@ -33,10 +33,25 @@ var Chimera = {
    * @private
    */
   _bindToModelChanges: function () {
-    this.model.on('change', function() {
-      console.log('- changed');
-      console.log(arguments);
-    })
+    this.model.on('change', function (model) {
+      for (var modelFieldName in model.changed) {
+        // reqs
+        if (!model.changed.hasOwnProperty(modelFieldName)) { continue; }
+        if (!this.modelMapping.hasOwnProperty(modelFieldName)) { continue; }
+
+        var newValue = model.get(modelFieldName);
+        var elsToUpdate = this.modelMapping[ modelFieldName ];
+        if (!(elsToUpdate instanceof Array)) {  // support single and multiple
+          elsToUpdate = [ elsToUpdate ];
+        }
+        console.log('- elsToUpdate');
+        console.log(elsToUpdate);
+        elsToUpdate.forEach(function (elSelector) {
+          var el = this.el.querySelector(elSelector).innerHTML = newValue;
+
+        }.bind(this));
+      }
+    }.bind(this))
   },
 
   /**
