@@ -1,7 +1,6 @@
 /*global define*/
 /*global undefined*/
 /*eslint camelcase: 0*/
-// define(['backbone', 'lodash' ], function (Backbone) {
 var Backbone = require('backbone');
 var lodash = require('lodash');
 
@@ -12,6 +11,11 @@ var lodash = require('lodash');
  * @type {Backbone.View} - Since this will be applied to a Backbone.View
  */
 var Chimera = {
+  /**
+   * @type {String}
+   */
+  _mixinName: 'chimera',
+
   /**
    *
    * @param modelField
@@ -68,6 +72,8 @@ var Chimera = {
     }
   }
 };
+
+window.Chimera = Chimera;
 
 /**
  * @class {QuizView}
