@@ -7,15 +7,52 @@ var lodash = require('lodash');
 
 /**
  * Chimera Backbone Model-View binding mixin
- * @class
- * @type {Object}
- * @type {Backbone.View} - Since this will be applied to a Backbone.View
+ * @mixin
+ * @extends {Backbone.View} - Since this will be applied to a Backbone.View
  */
 var Chimera = {
   /**
    * @type {String}
    */
   _mixinName: 'chimera',
+
+  /**
+   * Set up bindings
+   * @returns {void}
+   */
+  initializeChimera: function () {
+    console.log('- Chimera');
+    console.log(this.modelMapping);
+    // this._bindToModelFields();
+
+    this._bindToModelChanges();
+  },
+
+  /**
+   * Create model->view bindings. Supports Collections
+   * @private
+   */
+  _bindToModelChanges: function () {
+    this.model.on('change', function() {
+      console.log('- changed');
+      console.log(arguments);
+    })
+  },
+
+  /**
+   * @private
+   * @returns {void}
+   */
+  // _bindToModelFields: function () {
+  //   if (!this.modelMapping) {  // safety
+  //     return;
+  //   }
+  //
+  //   for (var key in this.modelMapping) {
+  //     var val = this.modelMapping[ key ];
+  //     this._bindToModelField(key, val)
+  //   }
+  // },
 
   /**
    *
@@ -76,9 +113,11 @@ var Chimera = {
 
 window.Chimera = Chimera;
 
+
 /**
  * @class {QuizView}
  * @type {Backbone.View}
+ * @deprecated
  */
 var QuizView = Backbone.View.extend({
   manage: false,  // no layoutmanager
