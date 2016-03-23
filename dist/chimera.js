@@ -4,7 +4,6 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 /*eslint camelcase: 0*/
 var Backbone = require('backbone');
 var lodash = require('lodash');
-var $ = require('sprint');
 
 /**
  * Chimera Backbone Model-View binding mixin
@@ -99,8 +98,6 @@ var Chimera = {
     }
     else {
       this.events['change ' + selector] = function (ev) {
-        debugger;
-        console.log('-- changed ' + selector);
         this.model.set(modelField, ev.currentTarget.value);
       }.bind(this);
     }
@@ -435,7 +432,7 @@ var QuizView = Backbone.View.extend({
 // return QuizView;
 module.exports = Chimera;
 
-},{"backbone":2,"lodash":4,"sprint":"sprint"}],2:[function(require,module,exports){
+},{"backbone":2,"lodash":4}],2:[function(require,module,exports){
 (function (global){
 //     Backbone.js 1.3.2
 
@@ -28820,6 +28817,7 @@ return jQuery;
 }.call(this));
 
 },{}],"sprint":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /*
  * Sprint JavaScript Library v0.9.2
  * http://sprintjs.com
@@ -30222,8 +30220,14 @@ Sprint = function (selector, context) {
   return new Init(selector, context)
 }
 
-// debugger;
-
+if (window) {
+  if (!window.$) {
+    window.$ = Sprint;
+  }
+  window.Sprint = Sprint;
+}
 module.exports = Sprint;
+
+},{}]},{},[1]);
 
 },{}]},{},[1]);

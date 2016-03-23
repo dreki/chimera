@@ -1,3 +1,6 @@
+/** @type {jQuery} */
+var $ = Sprint;
+
 /**
  * @class
  * @extends {Backbone.Model}
@@ -63,6 +66,7 @@ QUnit.test(
     var view = new MyView({ el: testEls.mainEl, model: model });
     ok(view, 'view sanity');
     ok(view.el, 'view.el sanity');
+
     equal(document.querySelector('.js-test-el').innerText, '', 'initial innerText');
 
     // binding
@@ -76,7 +80,11 @@ QUnit.test(
     equal(testEls.textInputEl.value, 'Rachet');
 
     // view to model
+    debugger;
     $(testEls.textInputEl).val('Clink').trigger('change');
     equal(model.get('firstNameForTextInputEl'), 'Clink');
+
+    // collections
+    console.log(Sprint);
   }
 );

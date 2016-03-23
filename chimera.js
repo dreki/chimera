@@ -3,7 +3,6 @@
 /*eslint camelcase: 0*/
 var Backbone = require('backbone');
 var lodash = require('lodash');
-var $ = require('sprint');
 
 /**
  * Chimera Backbone Model-View binding mixin
@@ -98,8 +97,6 @@ var Chimera = {
     }
     else {
       this.events['change ' + selector] = function (ev) {
-        debugger;
-        console.log('-- changed ' + selector);
         this.model.set(modelField, ev.currentTarget.value);
       }.bind(this);
     }
