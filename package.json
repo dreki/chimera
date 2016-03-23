@@ -6,7 +6,7 @@
   "scripts": {
     "test": "tap test/*.js",
     "casper": "casperjs test test/model-to-view.js",
-    "build": "node_modules/browserify/bin/cmd.js chimera.js > dist/chimera.js"
+    "build": "node_modules/browserify/bin/cmd.js -r ./lib/sprint.js:sprint chimera.js > dist/chimera.js"
   },
   "repository": {
     "type": "git",
@@ -24,12 +24,12 @@
   "devDependencies": {
     "express": "4.13.4",
     "jsdom": "8.1.0",
+    "qunitjs": "1.22",
     "read-file": "0.2.0",
     "spooky": "0.2.5",
     "tap": "^5.0.0",
     "wdio-mocha-framework": "^0.2.11",
-    "webdriverio": "3",
-    "qunitjs": "1.22"
+    "webdriverio": "3"
   },
   "dependencies": {
     "jquery": "2.2.1",

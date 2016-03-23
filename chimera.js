@@ -3,6 +3,7 @@
 /*eslint camelcase: 0*/
 var Backbone = require('backbone');
 var lodash = require('lodash');
+var $ = require('sprint');
 
 /**
  * Chimera Backbone Model-View binding mixin
@@ -20,18 +21,15 @@ var Chimera = {
    * @returns {void}
    */
   initializeChimera: function () {
-    console.log('- Chimera');
-    console.log(this.modelMapping);
-    // this._bindToModelFields();
-
-    this._bindToModelChanges();
+    this._bindViewToModelChanges();
+    this._bindModelToViewChanges();
   },
 
   /**
    * Create model->view bindings. Supports Collections
    * @private
    */
-  _bindToModelChanges: function () {
+  _bindViewToModelChanges: function () {
     this.model.on('change', function (model) {
       for (var modelFieldName in model.changed) {
         // reqs
@@ -43,12 +41,21 @@ var Chimera = {
         if (!(elsToUpdate instanceof Array)) {  // support single and multiple
           elsToUpdate = [ elsToUpdate ];
         }
-        console.log('- elsToUpdate');
-        console.log(elsToUpdate);
-        elsToUpdate.forEach(function (elSelector) {
-          var el = this.el.querySelector(elSelector).innerHTML = newValue;
-
-        }.bind(this));
+        elsToUpdate.forEach(_.wrap(newValue,
+          function (newValue, elSelector) {
+            /** @type {Element} */
+            var el = this.el.querySelector(elSelector);
+            console.log(el);
+            if (el.type) {  // form field support
+              console.log('- is form field');
+              console.log('  - ' + newValue);
+              el.value = newValue;
+            }
+            else {
+              el.innerHTML = newValue;
+            }
+          }.bind(this))
+        );
       }
     }.bind(this))
   },
@@ -85,12 +92,14 @@ var Chimera = {
           var field = fields[j];
           // replace any existing model
           collection.remove(collection.at(j));
-          collection.add({value: field.value,}, {at: j,});
+          collection.add({ value: field.value }, { at: j });
         }
       }.bind(this);
     }
     else {
       this.events['change ' + selector] = function (ev) {
+        debugger;
+        console.log('-- changed ' + selector);
         this.model.set(modelField, ev.currentTarget.value);
       }.bind(this);
     }
@@ -99,7 +108,7 @@ var Chimera = {
   /**
    * @returns {void}
    */
-  _bindViewChangesToModel: function () {
+  _bindModelToViewChanges: function () {
     if (!this.events) {
       this.events = {};
     }
@@ -110,16 +119,17 @@ var Chimera = {
       /** @type {String[]} */
       var selectors = this.modelMapping[modelField];
       if (!(selectors instanceof Array)) {
-        selectors = [selectors,];
+        selectors = [ selectors ];
       }
       if (selectors.length > 1) {
-        selectors.forEach(_.wrap({modelField: modelField, selectors: selectors,}, function (params, selector) {
+        selectors.forEach(_.wrap({ modelField: modelField, selectors: selectors }, function (params, selector) {
           this._bindToModelField(params.modelField, selector, params.selectors);
         }.bind(this)));
       }
       else {
         this._bindToModelField(modelField, selectors[0], selectors);
       }
+      console.log(this.events);
       this.delegateEvents();  // bind new event
     }
   }

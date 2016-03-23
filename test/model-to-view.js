@@ -1,10 +1,4 @@
 /**
- * @extends {jQuery}
- * @type {jQuery}
- */
-var $ = window.Sprint;
-
-/**
  * @class
  * @extends {Backbone.Model}
  * @extends {Chimera}
@@ -25,7 +19,8 @@ var MyModel = Backbone.Model.extend({
  */
 var MyView = Backbone.View.extend({
   modelMapping: {
-    'firstName': '.js-first-name'
+    'firstName': [ '.js-first-name' ],
+    'firstNameForTextInputEl': [ '.js-text-input' ]
   },
 
   /**
@@ -39,15 +34,19 @@ var MyView = Backbone.View.extend({
 
 /**
  * Create DOM elements for testing
- * @returns {{mainEl: Element, firstNameEl: Element}}
+ * @returns {{mainEl: Element, firstNameEl: Element, textInputEl: Element}}
  */
-var createTestEls = function () {
+var createTestEls;
+createTestEls = function () {
   var viewEl = document.createElement('div');  // main parent el
   viewEl.classList.add('js-test-el');
   var firstNameEl = document.createElement('div');
   firstNameEl.classList.add('js-first-name');
   viewEl.appendChild(firstNameEl);
-  return { mainEl: viewEl, firstNameEl: firstNameEl };
+  var textInputEl = document.createElement('input');
+  textInputEl.classList.add('js-text-input');
+  viewEl.appendChild(textInputEl);
+  return { mainEl: viewEl, firstNameEl: firstNameEl, textInputEl: textInputEl };
 };
 
 QUnit.test(
@@ -60,7 +59,6 @@ QUnit.test(
 
     // view init
     var testEls = createTestEls();
-    var firstNameEl = testEls.firstNameEl;
     document.querySelector('#qunit-fixture').appendChild(testEls.mainEl);
     var view = new MyView({ el: testEls.mainEl, model: model });
     ok(view, 'view sanity');
@@ -68,8 +66,17 @@ QUnit.test(
     equal(document.querySelector('.js-test-el').innerText, '', 'initial innerText');
 
     // binding
+    // regular elements
     model.set('firstName', 'Rickety');
     model.set('lastName', 'Fingersplats');
-    equal(firstNameEl.innerText, 'Rickety', 'view updated');
+    equal(testEls.firstNameEl.innerText, 'Rickety', 'view updated');
+
+    // form elements
+    model.set('firstNameForTextInputEl', 'Rachet');
+    equal(testEls.textInputEl.value, 'Rachet');
+
+    // view to model
+    $(testEls.textInputEl).val('Clink').trigger('change');
+    equal(model.get('firstNameForTextInputEl'), 'Clink');
   }
 );
