@@ -103,9 +103,17 @@ QUnit.test(
       );
     var $mainEl = testEls.$mainEl;
     $mainEl.append(inputs);
-    $mainEl.val('a new comment');
-    $mainEl.find('.js-comment').first().trigger('change');
+    $mainEl.find('.js-comment:eq(0)').val('a new comment');
+    $mainEl.find('.js-comment:eq(1)').val('1 comment');
+    $mainEl.find('.js-comment:eq(2)').val('2 comment time');
+    $mainEl.find('.js-comment:eq(0)').trigger('change');
     ok(model.comments);  // exist
     ok(model.comments.length === 3);
+    ok(model.comments.at(0).get('value') === 'a new comment');
+    $mainEl.find('.js-comment:eq(1)').trigger('change');
+    $mainEl.find('.js-comment:eq(2)').trigger('change');
+    ok(model.comments.at(0).get('value') === 'a new comment');
+    ok(model.comments.at(1).get('value') === '1 comment');
+    ok(model.comments.at(2).get('value') === '2 comment time');
   }
 );
