@@ -6,7 +6,7 @@
   "scripts": {
     "test": "tap test/*.js",
     "casper": "casperjs test test/model-to-view.js",
-    "build": "node_modules/browserify/bin/cmd.js -r ./lib/sprint.js:sprint chimera.js > dist/chimera.js"
+    "build": "./node_modules/browserify/bin/cmd.js -r ./lib/sprint.js:sprint chimera.js > dist/chimera.js"
   },
   "repository": {
     "type": "git",
@@ -33,9 +33,12 @@
   },
   "dependencies": {
     "jquery": "2.2.1",
+    "lodash": "4.6.1",
     "browserify": "13.0.0",
-    "backbone.nativeview": "0.3.3",
-    "lodash": "4.6.1"
+    "crel": "3.0.0",
+    "watchify": "3.7.0",
+    "deamdify": "0.2.0",
+    "pluralize": "1.2.1"
   },
   "author": "Sean Gilbertson",
   "license": "ISC",

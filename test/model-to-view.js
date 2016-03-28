@@ -1,6 +1,3 @@
-/** @type {jQuery} */
-var $ = Sprint;
-
 /**
  * @class
  * @extends {Backbone.Model}
@@ -12,7 +9,10 @@ var MyModel = Backbone.Model.extend({
    */
   initialize: function () {
     _.extend(MyModel.prototype, Chimera);
-  }
+    this.comments = new Backbone.Collection();
+  },
+
+  comments: undefined //new Backbone.Collection()
 });
 
 /**
@@ -22,14 +22,15 @@ var MyModel = Backbone.Model.extend({
  */
 var MyView = Backbone.View.extend({
   modelMapping: {
-    'firstName': [ '.js-first-name' ],
-    'firstNameForTextInputEl': [ '.js-text-input' ]
+    'firstName': ['.js-first-name'],
+    'firstNameForTextInputEl': ['.js-text-input'],
+    'comments': ['.js-comment']
   },
 
   /**
    * @constructor
    */
-  initialize: function() {
+  initialize: function () {
     _.extend(MyView.prototype, Chimera);
     this.initializeChimera();
   }
@@ -37,7 +38,7 @@ var MyView = Backbone.View.extend({
 
 /**
  * Create DOM elements for testing
- * @returns {{mainEl: Element, firstNameEl: Element, textInputEl: Element}}
+ * @returns {{mainEl: Element, $mainEl: jQuery, firstNameEl: Element, $firstNameEl: jQuery, textInputEl: Element, $textInputEl: jQuery}}
  */
 var createTestEls;
 createTestEls = function () {
@@ -49,7 +50,14 @@ createTestEls = function () {
   var textInputEl = document.createElement('input');
   textInputEl.classList.add('js-text-input');
   viewEl.appendChild(textInputEl);
-  return { mainEl: viewEl, firstNameEl: firstNameEl, textInputEl: textInputEl };
+  return {
+    mainEl: viewEl,
+    $mainEl: $(viewEl),
+    firstNameEl: firstNameEl,
+    $firstNameEl: $(firstNameEl),
+    textInputEl: textInputEl,
+    $textInputEl: $(textInputEl)
+  };
 };
 
 QUnit.test(
@@ -63,7 +71,7 @@ QUnit.test(
     // view init
     var testEls = createTestEls();
     document.querySelector('#qunit-fixture').appendChild(testEls.mainEl);
-    var view = new MyView({ el: testEls.mainEl, model: model });
+    var view = new MyView({el: testEls.mainEl, model: model});
     ok(view, 'view sanity');
     ok(view.el, 'view.el sanity');
 
@@ -80,11 +88,24 @@ QUnit.test(
     equal(testEls.textInputEl.value, 'Rachet');
 
     // view to model
-    debugger;
     $(testEls.textInputEl).val('Clink').trigger('change');
     equal(model.get('firstNameForTextInputEl'), 'Clink');
 
     // collections
-    console.log(Sprint);
+    var inputs =
+      crel('ul',
+        crel('li',
+          crel('input', {class: 'js-comment'})),
+        crel('li',
+          crel('input'), {class: 'js-comment'}),
+        crel('li',
+          crel('input'), {class: 'js-comment'})
+      );
+    var $mainEl = testEls.$mainEl;
+    $mainEl.append(inputs);
+    $mainEl.val('a new comment');
+    $mainEl.trigger('change');
+    ok(model.comments);  // exist
+    ok(model.comments.length === 3);
   }
 );

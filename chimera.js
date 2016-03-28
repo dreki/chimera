@@ -3,6 +3,7 @@
 /*eslint camelcase: 0*/
 var Backbone = require('backbone');
 var lodash = require('lodash');
+var pluralize = require('pluralize');
 
 /**
  * Chimera Backbone Model-View binding mixin
@@ -60,21 +61,6 @@ var Chimera = {
   },
 
   /**
-   * @private
-   * @returns {void}
-   */
-  // _bindToModelFields: function () {
-  //   if (!this.modelMapping) {  // safety
-  //     return;
-  //   }
-  //
-  //   for (var key in this.modelMapping) {
-  //     var val = this.modelMapping[ key ];
-  //     this._bindToModelField(key, val)
-  //   }
-  // },
-
-  /**
    *
    * @param modelField
    * @param selector
@@ -83,7 +69,10 @@ var Chimera = {
    * @private
    */
   _bindToModelField: function (modelField, selector, selectors) {
-    if (this.model[modelField] instanceof Backbone.Collection) {
+    var isCollection =
+      this.model[modelField] &&
+      this.model[modelField].prototype === new Backbone.Collection().prototype;
+    if (isCollection) {
       this.events['change ' + selector] = function () {
         var collection = this.model[modelField];
         var fields = this.el.querySelectorAll(selectors.join(','));
@@ -96,6 +85,13 @@ var Chimera = {
       }.bind(this);
     }
     else {
+      // warn if plural
+      var fieldExists = this.model.get(modelField);
+      var fieldIsPlural = pluralize(modelField, 1) !== 'modelField';
+      if (fieldExists && fieldIsPlural) {
+        console.warn('Chimera.js: Binding to a plural noun. Are you missing a Collection definition?');
+      }
+
       this.events['change ' + selector] = function (ev) {
         this.model.set(modelField, ev.currentTarget.value);
       }.bind(this);
@@ -103,6 +99,7 @@ var Chimera = {
   },
 
   /**
+   * @private
    * @returns {void}
    */
   _bindModelToViewChanges: function () {
@@ -126,7 +123,6 @@ var Chimera = {
       else {
         this._bindToModelField(modelField, selectors[0], selectors);
       }
-      console.log(this.events);
       this.delegateEvents();  // bind new event
     }
   }
