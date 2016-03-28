@@ -97,14 +97,14 @@ QUnit.test(
         crel('li',
           crel('input', {class: 'js-comment'})),
         crel('li',
-          crel('input'), {class: 'js-comment'}),
+          crel('input', {class: 'js-comment'})),
         crel('li',
-          crel('input'), {class: 'js-comment'})
+          crel('input', {class: 'js-comment'}))
       );
     var $mainEl = testEls.$mainEl;
     $mainEl.append(inputs);
     $mainEl.val('a new comment');
-    $mainEl.trigger('change');
+    $mainEl.find('.js-comment').first().trigger('change');
     ok(model.comments);  // exist
     ok(model.comments.length === 3);
   }
