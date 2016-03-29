@@ -22,9 +22,10 @@ var MyModel = Backbone.Model.extend({
  */
 var MyView = Backbone.View.extend({
   modelMapping: {
-    'firstName': ['.js-first-name'],
+    'firstName': '.js-first-name',
     'firstNameForTextInputEl': ['.js-text-input'],
-    'comments': ['.js-comment']
+    'comments': ['.js-comment'],
+    'buttnut': ['.js-buttnut-1', '.js-buttnut-2']
   },
 
   /**
@@ -38,7 +39,8 @@ var MyView = Backbone.View.extend({
 
 /**
  * Create DOM elements for testing
- * @returns {{mainEl: Element, $mainEl: jQuery, firstNameEl: Element, $firstNameEl: jQuery, textInputEl: Element, $textInputEl: jQuery}}
+ * @returns {{mainEl: Element, $mainEl: jQuery, firstNameEl: Element, $firstNameEl: jQuery, textInputEl: Element,
+ *   $textInputEl: jQuery}}
  */
 var createTestEls;
 createTestEls = function () {
@@ -115,5 +117,19 @@ QUnit.test(
     ok(model.comments.at(0).get('value') === 'a new comment');
     ok(model.comments.at(1).get('value') === '1 comment');
     ok(model.comments.at(2).get('value') === '2 comment time');
+
+    // updating collection updates view
+    var whatigot = 'life is too short so love the one you got cuz you might get run over or you might get shot';
+    model.comments.at(1).set('value', whatigot);
+    equal($mainEl.find('.js-comment:eq(1)').val(), whatigot);
+
+    // multiple elements bound to one form field
+    $mainEl.append('<div class="js-buttnut-1">');
+    $mainEl.append('<div class="js-buttnut-2">');
+    equal($mainEl.find('.js-buttnut-1').text(), '');
+    equal($mainEl.find('.js-buttnut-2').text(), '');
+    model.set('buttnut', 'gravevoice lafalsie');
+    equal($mainEl.find('.js-buttnut-1').text(), 'gravevoice lafalsie');
+    equal($mainEl.find('.js-buttnut-2').text(), 'gravevoice lafalsie');
   }
 );
