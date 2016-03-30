@@ -90,4 +90,4 @@ Given the above examples, here's what happens:
 Feel free to open pull requests and I'll merge them.
 
 ## bf4lyf
-This one goes out to the geniuses I work with every day at BuzzFeed ❤️
+This one goes out to the geniuses I work with every day at BuzzFeed.
