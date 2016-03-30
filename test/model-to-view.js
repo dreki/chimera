@@ -8,7 +8,6 @@ var MyModel = Backbone.Model.extend({
    * @constructor
    */
   initialize: function () {
-    _.extend(MyModel.prototype, Chimera);
     this.comments = new Backbone.Collection();
   },
 
@@ -68,7 +67,6 @@ QUnit.test(
     _.extend(this, assert);  // rather than `assert.ok(...)` etc.
     // model init
     var model = new MyModel();
-    ok(model._mixinName, 'mixin sanity');
 
     // view init
     var testEls = createTestEls();
@@ -76,6 +74,7 @@ QUnit.test(
     var view = new MyView({el: testEls.mainEl, model: model});
     ok(view, 'view sanity');
     ok(view.el, 'view.el sanity');
+    ok(view._mixinName, 'mixin sanity');
 
     equal(document.querySelector('.js-test-el').innerText, '', 'initial innerText');
 
