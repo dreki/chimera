@@ -1,5 +1,5 @@
 {
-  "name": "chimera",
+  "name": "backbone-chimera",
   "version": "1.0.0",
   "description": "Bind your Backbone Models and Views",
   "main": "dist/chimera.js",
