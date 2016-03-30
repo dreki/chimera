@@ -6,7 +6,7 @@ Chimera will update your views when your models change.
 
 It wil also update your models when your views change.
 
-# Usage
+## Usage
 
 #### Your Model
 ```
@@ -25,6 +25,7 @@ var MyModel = Backbone.Model.extend({
 #### Your View
 ```
 var MyView = Backbone.View.extend({
+  el: document.body,
   modelMapping: {
     'firstName': '.js-first-name',
     'firstNameForTextInputEl': ['.js-text-input'],
@@ -67,3 +68,18 @@ var MyView = Backbone.View.extend({
 </body>
 </html>
 ```
+
+## Discussion
+Given the above examples, here's what happens:
+
+- Changes to **firstName** on the model will be automatically displayed in **div.js-first-name**
+- Changes to **.js-text-input's** value automatically update the model field **firstNameForTextInputEl**
+- Changes to **firstNameForTextInputEl** will update **.js-text-input's** value
+- Changes to any of the **.js-comment** inputs will update the corresponding model in the **comments** collection (i.e. the second **.js-comment's** value will be stored in **comments.at(1)**)
+- For each **.js-comment** that exists in the view but not in the **comments** collection, a model at that index in **comments** will be created (i.e. in our case, there would be 3 items in the collection)
+
+## Feed me
+Feel free to open pull requests and I'll merge them.
+
+## bf4lyf
+This one goes out to the geniuses I work with every day at BuzzFeed ❤️
