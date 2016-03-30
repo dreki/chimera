@@ -14,7 +14,7 @@ https://www.npmjs.com/package/backbone-chimera
 ## Usage
 
 #### Your Model
-```
+```js
 var MyModel = Backbone.Model.extend({
   defaults: {
     firstName: null,
@@ -28,7 +28,7 @@ var MyModel = Backbone.Model.extend({
 });
 ```
 #### Your View
-```
+```js
 var MyView = Backbone.View.extend({
   el: document.body,
   modelMapping: {
