@@ -1,3 +1,7 @@
+I'm proud to say that chimera is being supported by BrowserStack!
+
+<img src="http://i.imgur.com/LMRz23i.png" height="30" alt="BrowserStack" />
+
 # chimera
 
 Two-way bindings for Backbone.
